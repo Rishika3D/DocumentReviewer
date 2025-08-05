@@ -3,8 +3,10 @@ import { FaHome, FaCog } from "react-icons/fa";
 import { FaBoltLightning } from "react-icons/fa6";
 import { CiStar } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
+import { useNavigate } from "react-router-dom"; // 👈 Import the hook
 
 const LeftBar = () => {
+  const navigate = useNavigate(); // 👈 Use it here
   const fileInputRef = useRef(null);
 
   const handleNewDocumentClick = () => {
@@ -25,7 +27,11 @@ const LeftBar = () => {
     <div className="bg-[#F3F4F6] h-screen w-[250px] flex flex-col justify-between px-2 pt-4">
       {/* Top Section */}
       <div className="flex flex-col gap-2">
-        <button className="flex items-center gap-3 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300 transition">
+        {/* Home button navigates to / */}
+        <button
+          className="flex items-center gap-3 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300 transition"
+          onClick={() => navigate("/")}
+        >
           <FaHome className="text-lg" />
           Home
         </button>
@@ -36,10 +42,26 @@ const LeftBar = () => {
             AI Tools
           </button>
 
+          {/* Dropdown */}
           <div className="absolute left-full top-0 ml-2 hidden group-hover:flex flex-col bg-white border rounded-xl shadow-md w-40 p-2 z-50">
-            <button className="text-left px-4 py-2 hover:bg-gray-100 rounded-md transition">Rewrite</button>
-            <button className="text-left px-4 py-2 hover:bg-gray-100 rounded-md transition">Grammar Check</button>
-            <button className="text-left px-4 py-2 hover:bg-gray-100 rounded-md transition">Summarize</button>
+            <button
+              onClick={() => navigate("/rewrite")}
+              className="text-left px-4 py-2 hover:bg-gray-100 rounded-md transition"
+            >
+              Rewrite
+            </button>
+            <button
+              onClick={() => navigate("/grammar")}
+              className="text-left px-4 py-2 hover:bg-gray-100 rounded-md transition"
+            >
+              Grammar Check
+            </button>
+            <button
+              onClick={() => navigate("/summarise")}
+              className="text-left px-4 py-2 hover:bg-gray-100 rounded-md transition"
+            >
+              Summarize
+            </button>
           </div>
         </div>
 

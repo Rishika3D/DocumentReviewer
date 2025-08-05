@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Menu from "./Menu";
 import avatarImg from "../assets/avatar.png";
 import { FiSearch } from 'react-icons/fi';
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom"; // Important for navigation
 
 const NavSum = () => {
   const [isLogged, setIsLogged] = useState(true);
@@ -24,16 +24,15 @@ const NavSum = () => {
     <nav className="flex items-center justify-between px-8 py-4 bg-white shadow-md relative z-50">
       {/* Brand + Links */}
       <div className="flex items-center gap-12">
-        <div className="text-xl font-bold text-gray-900">
         <Link to="/" className="text-xl font-bold text-gray-900 hover:text-neutral-700">
-  DocuReviewer
-</Link>
-                </div>
+          DocuReviewer
+        </Link>
+
         <div className="flex gap-8 text-sm font-medium text-gray-700">
-          <a href="#" className="hover:text-black">Dashboard</a>
-          <a href="#" className="hover:text-black">Documents</a>
-          <a href="#" className="hover:text-black">Tools</a>
-          <a href="#" className="hover:text-black">Help</a>
+          <Link to="/" className="hover:text-black">Dashboard</Link>
+          <Link to="/summarise" className="hover:text-black">Documents</Link>
+          <Link to="/tools" className="hover:text-black">Tools</Link>
+          <Link to="/help" className="hover:text-black">Help</Link>
         </div>
       </div>
 
