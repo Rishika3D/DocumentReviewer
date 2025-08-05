@@ -1,6 +1,8 @@
 import "../App.css";
 import Navbar from '../components/Navbar';
 import LeftBar from '../components/LeftBar';
+import Rewrite from "./Rewrite"; 
+
 
 function Home() {
   return (

@@ -1,28 +1,47 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import "../App.css";
+import Navbar from "../components/Navbar";
+import LeftBar from "../components/LeftBar";
+import Rewrite from "./pages/Rewrite";
 
-import Summarise from './pages/Summarise';
-import Home from './pages/Home';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
-const App = () => {
+function App() {
   return (
     <Router>
-      <Routes>
-        {/* Default route goes to Home */}
-        <Route path="/" element={<Home />} />
+      <div className="h-screen w-screen flex flex-col overflow-hidden">
+        {/* Top Navbar */}
+        <Navbar />
 
-        {/* Tools */}
-        <Route path="/summarise" element={<Summarise />} />
-        
-        {/* Future pages like grammar, rewrite, etc. */}
-        {/* <Route path="/rewrite" element={<Rewrite />} /> */}
-        {/* <Route path="/grammar" element={<Grammar />} /> */}
+        <div className="flex flex-1 overflow-hidden">
+          {/* Sidebar */}
+          <LeftBar />
 
-        {/* Catch-all fallback (optional but nice) */}
-        <Route path="*" element={<h2 className="text-center mt-10 text-gray-600">404 - Page Not Found</h2>} />
-      </Routes>
+          {/* Main Content Area */}
+          <main className="flex-1 overflow-y-auto px-5 py-4 bg-gray-50">
+            <Routes>
+              {/* Home Route */}
+              <Route
+                path="/"
+                element={
+                  <>
+                    <h1 className="text-4xl font-semibold mb-4">Documents</h1>
+                    <p className="text-gray-600">Welcome to your document dashboard.</p>
+                  </>
+                }
+              />
+
+              {/* Rewrite Route */}
+              <Route path="/rewrite" element={<Rewrite />} />
+            </Routes>
+          </main>
+        </div>
+      </div>
     </Router>
   );
-};
+}
 
 export default App;
