@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import Menu from "./Menu"; // 👈 your dropdown component
-import avatarImg from "../assets/avatar.png"; // 👈 replace with dynamic Google avatar URL when ready
+import Menu from "./Menu"; 
+import avatarImg from "../assets/avatar.png"; 
 import { FiSearch } from 'react-icons/fi'
 
 const Navbar = () => {
-  const [isLogged, setIsLogged] = useState(true); // toggle this for testing
+  const [isLogged, setIsLogged] = useState(true); 
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
 
@@ -22,7 +22,7 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-white shadow-md relative z-50">
       {/* Logo / Brand */}
-      <div className="text-xl font-bold text-gray-800">DocuReview</div>
+      <div className="text-xl font-bold text-gray-800">DocuReviewer</div>
 
       {/* Search Bar */}
       
