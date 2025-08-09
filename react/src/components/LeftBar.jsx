@@ -29,10 +29,10 @@ const LeftBar = () => {
       <div className="flex flex-col gap-3">
         <button
           className="flex items-center gap-3 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300 transition"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/edit")}
         >
           <FaHome className="text-lg" />
-          Home
+          Edit
         </button>
 
         <div className="relative group">

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Rewrite from './pages/Rewrite';
 import Summarise from './pages/Summarise';
 import GetHelp from './pages/GetHelp';
+import Edit from './pages/Edit'; 
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/rewrite" element={<Rewrite />} />
         <Route path="/summarise" element={<Summarise />} />
         <Route path="/help" element={<GetHelp />} />
+        <Route path='/edit' element={<Edit />} />
       </Routes>
     </Router>
   );
