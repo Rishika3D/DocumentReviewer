@@ -31,7 +31,7 @@ const NavSum = () => {
         <div className="flex gap-8 text-sm font-medium text-gray-700">
           <Link to="/" className="hover:text-black">Dashboard</Link>
           <Link to="/summarise" className="hover:text-black">Documents</Link>
-          <Link to="/tools" className="hover:text-black">Tools</Link>
+          <Link to="/edit" className="hover:text-black">Edit</Link>
           <Link to="/help" className="hover:text-black">Help</Link>
         </div>
       </div>
