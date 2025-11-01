@@ -6,6 +6,7 @@ import Rewrite from './pages/Rewrite';
 import Summarise from './pages/Summarise';
 import GetHelp from './pages/GetHelp';
 import Edit from './pages/Edit'; 
+import GrammarCheck from './pages/GrammarCheck';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/summarise" element={<Summarise />} />
         <Route path="/help" element={<GetHelp />} />
         <Route path='/edit' element={<Edit />} />
+        <Route path='/grammar' element={<GrammarCheck />} />
       </Routes>
     </Router>
   );
