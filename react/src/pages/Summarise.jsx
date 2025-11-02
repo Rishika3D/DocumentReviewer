@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Navbar from '../components/NavSum';
 
 const Summarise = () => {
-  const [summary, setSummary] = useState('');
   const [inputText, setInputText] = useState('');
+  const [summary, setSummary] = useState('');
   const [length, setLength] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,15 +22,19 @@ const Summarise = () => {
       alert("Paste text to summarize 🚨");
       return;
     }
+    if (!length.trim()) {
+      alert("Enter summary length 💀");
+      return;
+    }
 
     setIsLoading(true);
     setSummary("...thinking 🤖");
 
     try {
-      const res = await fetch("http://localhost:5000/summarize", {
+      const res = await fetch("http://localhost:5000/api/nlp/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: inputText, length }),
+        body: JSON.stringify({ text: inputText, length: Number(length) }),
       });
 
       const data = await res.json();
@@ -39,6 +43,7 @@ const Summarise = () => {
     } catch (error) {
       setSummary("⚠️ Error fetching summary");
       console.error(error);
+      alert("Server meltdown 💥 Check console");
     } finally {
       setIsLoading(false);
     }
@@ -57,9 +62,9 @@ const Summarise = () => {
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            rows={6}
+            rows={8}
             className="w-full px-4 py-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black resize-none"
-            placeholder="Paste the content you want summarized..."
+            placeholder="Paste text to summarize..."
           />
         </div>
 
@@ -78,8 +83,8 @@ const Summarise = () => {
         {/* Button */}
         <button
           onClick={handleSummarize}
-          className="bg-black hover:bg-gray-800 text-white font-semibold px-6 py-2 rounded-md mb-6 transition flex items-center gap-2 disabled:opacity-70"
           disabled={isLoading}
+          className="bg-black hover:bg-gray-800 text-white font-semibold px-6 py-2 rounded-md mb-6 transition flex items-center gap-2 disabled:opacity-70"
         >
           {isLoading ? "Summarizing..." : "Generate Summary"}
         </button>

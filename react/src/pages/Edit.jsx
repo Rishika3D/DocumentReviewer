@@ -83,10 +83,34 @@ export default function Edit() {
     if (!selectedText) return;
     const res = await axios.post("http://localhost:5000/api/rewrite",{ text: selectedText });
 
+<<<<<<< HEAD
     const range = quill.getSelection();
     quill.deleteText(range.index, range.length);
     quill.insertText(range.index, res.data.output);
     setShowPopup(false);
+=======
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setLoading(true);
+    try {
+      const res = await axios.post('http://localhost:5050/api/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      startTransition(() => {
+        setValue(res.data.text || '');
+        if (quill) {
+          quill.root.innerHTML = res.data.text || '';
+        }
+      });
+    } catch (err) {
+      console.error('Error uploading file:', err);
+      alert('File upload failed. Check the console for details.');
+    } finally {
+      setLoading(false);
+    }
+>>>>>>> 1316392 (added changes)
   };
 
   const addComment = () => {

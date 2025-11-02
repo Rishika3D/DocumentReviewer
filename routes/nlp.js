@@ -7,7 +7,7 @@ const router = express.Router()
 const MODELS = {
   SUMMARISE: 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn',
   GRAMMAR: 'https://api-inference.huggingface.co/models/oliverguhr/german-grammar-check',
-  REWRITE: 'https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1'
+  REWRITE: "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta"
 }
 
 // 🔹 1. Summarise

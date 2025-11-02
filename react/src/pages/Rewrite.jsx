@@ -52,6 +52,7 @@ const Rewrite = () => {
     setOutput("Thinking...");
 
     try {
+<<<<<<< HEAD
       const target = `${tone} tone, ${style} style, for ${audience}`;
 
       const response = await axios.post(API_URL, {
@@ -67,9 +68,28 @@ const Rewrite = () => {
       console.error(err);
     } finally {
       setLoading(false);
+=======
+      const response = await axios.post(
+        "http://localhost:5050/api/nlp/rewrite",
+        {
+          text: prompt,      // ✅ backend needs this
+          target: tone || style || audience || "improve clarity"
+          // pick whatever your user chose as rewriting target
+        },
+        {
+          headers: { "Content-Type": "application/json" }
+        }
+      );
+  
+      console.log("Rewritten Text:", response.data.rewritten);
+      setRewrittenText(response.data.rewritten);
+    } catch (err) {
+      console.error("🔥 HF ERROR:", err.response?.data || err.message || err);
+      alert("Rewrite request failed 📛 Check console");
+>>>>>>> 1316392 (added changes)
     }
   };
-
+  
   return (
     <div className="flex flex-col min-h-screen bg-white">
 
