@@ -83,12 +83,12 @@ export default function Edit() {
     if (!selectedText) return;
     const res = await axios.post("http://localhost:5000/api/rewrite",{ text: selectedText });
 
-<<<<<<< HEAD
+
     const range = quill.getSelection();
     quill.deleteText(range.index, range.length);
     quill.insertText(range.index, res.data.output);
     setShowPopup(false);
-=======
+
     const formData = new FormData();
     formData.append('file', file);
 
@@ -110,7 +110,6 @@ export default function Edit() {
     } finally {
       setLoading(false);
     }
->>>>>>> 1316392 (added changes)
   };
 
   const addComment = () => {

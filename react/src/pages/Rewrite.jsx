@@ -12,7 +12,7 @@ const Rewrite = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const API_URL = "http://localhost:5001/rewrite"; // ✅ backend endpoint
+  const API_URL = "http://localhost:5050/api/nlp/rewrite"; 
 
   const toneOptions = [
     "Formal", "Informal", "Professional", "Friendly", "Humorous",
@@ -33,73 +33,52 @@ const Rewrite = () => {
     setOutput("");
     setIsTyping(true);
     let i = 0;
-    const speed = 18; 
 
     const interval = setInterval(() => {
       setOutput((prev) => prev + fullText.charAt(i));
       i++;
-
       if (i >= fullText.length) {
         clearInterval(interval);
         setIsTyping(false);
       }
-    }, speed);
+    }, 18);
   };
 
   const handleRewrite = async () => {
+    if (!tone || !style || !audience || !prompt) return;
+    
     setLoading(true);
     setError('');
     setOutput("Thinking...");
 
     try {
-<<<<<<< HEAD
       const target = `${tone} tone, ${style} style, for ${audience}`;
 
-      const response = await axios.post(API_URL, {
-        text: prompt,
-        target,
-      });
+      const response = await axios.post(
+        API_URL,
+        { text: prompt, target },
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       const rewritten = response.data.rewritten || "No output returned.";
       typeWriter(rewritten);
 
     } catch (err) {
-      setError("Rewrite failed. Check backend or request params.");
-      console.error(err);
+      setError("Rewrite failed. Check backend or HuggingFace access.");
+      console.error("🔥 HF ERROR:", err.response?.data || err);
     } finally {
       setLoading(false);
-=======
-      const response = await axios.post(
-        "http://localhost:5050/api/nlp/rewrite",
-        {
-          text: prompt,      // ✅ backend needs this
-          target: tone || style || audience || "improve clarity"
-          // pick whatever your user chose as rewriting target
-        },
-        {
-          headers: { "Content-Type": "application/json" }
-        }
-      );
-  
-      console.log("Rewritten Text:", response.data.rewritten);
-      setRewrittenText(response.data.rewritten);
-    } catch (err) {
-      console.error("🔥 HF ERROR:", err.response?.data || err.message || err);
-      alert("Rewrite request failed 📛 Check console");
->>>>>>> 1316392 (added changes)
     }
   };
-  
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
-
       <div className="sticky top-0 z-50 bg-white shadow-sm">
         <NavSum />
       </div>
 
       <div className="flex-1 px-8 py-10">
         <div className="max-w-4xl mx-auto">
-
           <h1 className="text-3xl font-bold mb-2">Rewrite Document</h1>
           <p className="text-gray-600 mb-8">
             Transform the tone, writing style, and target audience using AI.
@@ -107,63 +86,40 @@ const Rewrite = () => {
 
           <div className="space-y-6">
 
-            {/* Tone */}
             <div>
               <label className="block mb-1 font-medium">Tone</label>
-              <select
-                value={tone}
-                onChange={(e) => setTone(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3"
-              >
+              <select className="w-full border rounded-lg p-3" value={tone} onChange={(e) => setTone(e.target.value)}>
                 <option value="">Select Tone</option>
-                {toneOptions.map((i) => (
-                  <option value={i} key={i}>{i}</option>
-                ))}
+                {toneOptions.map(i => <option key={i}>{i}</option>)}
               </select>
             </div>
 
-            {/* Style */}
             <div>
               <label className="block mb-1 font-medium">Style</label>
-              <select
-                value={style}
-                onChange={(e) => setStyle(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3"
-              >
+              <select className="w-full border rounded-lg p-3" value={style} onChange={(e) => setStyle(e.target.value)}>
                 <option value="">Select Style</option>
-                {styleOptions.map((i) => (
-                  <option value={i} key={i}>{i}</option>
-                ))}
+                {styleOptions.map(i => <option key={i}>{i}</option>)}
               </select>
             </div>
 
-            {/* Audience */}
             <div>
-              <label className="block mb-1 font-medium">Target Audience</label>
-              <select
-                value={audience}
-                onChange={(e) => setAudience(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3"
-              >
+              <label className="block mb-1 font-medium">Audience</label>
+              <select className="w-full border rounded-lg p-3" value={audience} onChange={(e) => setAudience(e.target.value)}>
                 <option value="">Select Audience</option>
-                {audienceOptions.map((i) => (
-                  <option value={i} key={i}>{i}</option>
-                ))}
+                {audienceOptions.map(i => <option key={i}>{i}</option>)}
               </select>
             </div>
 
-            {/* Text Input */}
             <div>
               <label className="block mb-1 font-medium">Text to Rewrite</label>
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
+                className="w-full border rounded-lg p-3 h-40"
                 placeholder="Paste or type content..."
-                className="w-full border border-gray-300 rounded-lg p-3 h-40 resize-none"
               />
             </div>
 
-            {/* Button */}
             <button
               onClick={handleRewrite}
               className={`bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition ${
@@ -173,17 +129,13 @@ const Rewrite = () => {
               {loading ? "Rewriting..." : "Rewrite"}
             </button>
 
-            {/* Error */}
             {error && <div className="text-red-600 font-medium">{error}</div>}
 
-            {/* Output */}
             {output && (
-              <div className="mt-6 p-4 border rounded bg-gray-50 min-h-[160px] whitespace-pre-wrap">
+              <div className="mt-6 p-4 border rounded bg-gray-50 whitespace-pre-wrap min-h-[160px]">
                 <h2 className="font-semibold mb-2 text-lg">AI Output</h2>
-                <div className="leading-6">
-                  {output}
-                  {isTyping && <span className="animate-pulse ml-1">▌</span>}
-                </div>
+                {output}
+                {isTyping && <span className="animate-pulse ml-1">▌</span>}
               </div>
             )}
 
