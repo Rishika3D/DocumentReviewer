@@ -1,16 +1,17 @@
 import express from 'express'
-import { queryModel } from '../services/huggingFaceService.js'
+import { queryModel } from '../services/huggingFaceServices.js'
 import { buildRewritePrompt } from '../utils/promptBuilder.js'
 
 const router = express.Router()
 
+// UPDATED: The base URL has been changed to match the error message
 const MODELS = {
-  SUMMARISE: 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn',
-  GRAMMAR: 'https://api-inference.huggingface.co/models/oliverguhr/german-grammar-check',
-  REWRITE: "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta"
+  SUMMARISE: 'https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn',
+  GRAMMAR: 'https://router.huggingface.co/hf-inference/models/hassaanik/grammar-correction-model',
+  REWRITE: 'https://router.huggingface.co/hf-inference/models/tuner007/pegasus_paraphrase'
 }
 
-// 🔹 1. Summarise
+// ✅ Summarization
 router.post('/summarise', async (req, res) => {
   const { text } = req.body
   if (!text?.trim()) return res.status(400).json({ error: 'Text is required.' })
@@ -23,7 +24,7 @@ router.post('/summarise', async (req, res) => {
   }
 })
 
-// 🔹 2. Grammar Correction
+// ✅ English Grammar Correction
 router.post('/grammar', async (req, res) => {
   const { text } = req.body
   if (!text?.trim()) return res.status(400).json({ error: 'Text is required.' })
@@ -36,7 +37,7 @@ router.post('/grammar', async (req, res) => {
   }
 })
 
-// 🔹 3. Rewrite
+// ✅ Rewrite / Paraphrase
 router.post('/rewrite', async (req, res) => {
   const { text, target } = req.body
   if (!text?.trim() || !target?.trim()) {
@@ -54,11 +55,12 @@ router.post('/rewrite', async (req, res) => {
     })
     res.json({ rewritten: response[0]?.generated_text?.trim() || 'No rewrite returned.' })
   } catch (err) {
+    // This 'err.message' is what you saw in your console
     res.status(500).json({ error: 'Rewriting failed.', details: err.message })
   }
 })
 
-// 🔹 4. Analyze Text
+// ✅ Analyze Endpoint
 router.post('/analyze', (req, res) => {
   const { text } = req.body
   if (!text?.trim()) return res.status(400).json({ error: 'Text is required.' })
